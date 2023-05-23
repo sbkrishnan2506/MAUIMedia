@@ -32,6 +32,20 @@ public partial class MainPage : ContentPage
         }
 
     }
+    private async void SelectMauiMediaBtnClicked(object sender, EventArgs e)
+    {
+
+        var result = await MediaPicker.Default.PickPhotoAsync();
+        if (result is null) return;
+
+        UploadedOrSelectedImage.Source = result?.FullPath;
+
+        var fileInfo = new FileInfo(result?.FullPath);
+        var fileLength = fileInfo.Length;
+
+        FileSizeLabel.Text = $"Image size: {fileLength / 1000} kB";
+
+    }
     private async void OnCounterClicked(object sender, EventArgs e)
 	{
 

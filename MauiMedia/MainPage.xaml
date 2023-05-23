@@ -34,14 +34,20 @@
                 Clicked="mauiMediaBtnClicked"
                 HorizontalOptions="Center" />
             <Button
+                x:Name="SelectBtnmauimedia"
+                Text="Select Photo MAUI Media)"
+                SemanticProperties.Hint="Select Photo"
+                Clicked="SelectMauiMediaBtnClicked"
+                HorizontalOptions="Center" />
+            <Button
                 x:Name="CounterBtn"
-                Text="Capture Photo"
+                Text="Capture Photo(XAM.Plugin.Media)"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
             <Button
                 x:Name="SelectBtn"
-                Text="Select Photo"
+                Text="Select Photo(XAM.Plugin.Media)"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="SelectBtnClicked"
                 HorizontalOptions="Center" />
