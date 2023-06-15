@@ -15,7 +15,7 @@
 		<ApplicationTitle>MauiMedia</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.mauimedia</ApplicationId>
+		<ApplicationId>com.TRG.MobileCalc</ApplicationId>
 		<ApplicationIdGuid>8bb7afc0-7dbf-45ae-9bdf-833384f67cca</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -30,6 +30,14 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>Title!Snap_Dev</CodesignProvision>
+	  <CodesignKey>Apple Development: Balakrishnan Srinivasan (P33V944FC5)</CodesignKey>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />

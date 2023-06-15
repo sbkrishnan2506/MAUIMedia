@@ -1,4 +1,5 @@
-﻿using Plugin.Media;
+﻿using Microsoft.Maui.Devices;
+using Plugin.Media;
 using Plugin.Media.Abstractions;
 
 namespace MauiMedia;
@@ -14,21 +15,68 @@ public partial class MainPage : ContentPage
 
     private async void mauiMediaBtnClicked(object sender, EventArgs e)
     {
-
-        if (MediaPicker.Default.IsCaptureSupported)
+        try
         {
-            FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
-            if (photo != null)
+            if (MediaPicker.Default.IsCaptureSupported)
             {
-                // save the file into local storage
-                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-                UploadedOrSelectedImage.Source = photo?.FullPath;
-                var fileInfo = new FileInfo(photo?.FullPath);
-                var fileLength = fileInfo.Length;
-                FileSizeLabel.Text = $"Image size: {fileLength / 1000} kB";
+                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
 
+                if (photo != null)
+                {
+                    // save the file into local storage
+                    //string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                    
+
+
+
+                    if (DeviceInfo.Platform == DevicePlatform.iOS)
+                    {
+
+                        // save the file into local storage
+                        string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+
+                        using Stream sourceStream = await photo.OpenReadAsync();
+                        using FileStream localFileStream = File.OpenWrite(localFilePath);
+
+                        await sourceStream.CopyToAsync(localFileStream);
+                        UploadedOrSelectedImage.Source = localFilePath;
+
+                        var fileInfo = new FileInfo(localFilePath);
+                        var fileLength = fileInfo.Length;
+                        FileSizeLabel.Text = $"Image size: {fileLength / 1000} kB";
+                    }
+                    else
+                    {
+                        UploadedOrSelectedImage.Source = photo?.FullPath;
+                        var fileInfo = new FileInfo(photo?.FullPath);
+                        var fileLength = fileInfo.Length;
+                        FileSizeLabel.Text = $"Image size: {fileLength / 1000} kB";
+                    }
+
+
+
+
+                    //Microsoft.Maui.Controls.ImageSource imagesource;
+                    //if (DeviceInfo.Platform = DevicePlatform.iOS)
+                    //{
+                    //    var localpath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                    //    photo.OpenReadAsync();
+                    //}
+                    //else
+                    //{
+                    //    imagesource = photo?.FullPath;
+                    //    //UploadedOrSelectedImage.Source = photo?.FullPath;
+                    //}
+                    //UploadedOrSelectedImage.Source = localFilePath;
+
+                    
+
+                }
             }
+        }
+        catch(Exception ex)
+        {
+            await DisplayAlert("Alert", ex.Message, "OK");
         }
 
     }
